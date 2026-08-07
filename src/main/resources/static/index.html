@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSpend Finance</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --border-color: #334155;
+            --hover-bg: #2dd4bf;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-blue);
+        }
+
+        .card h3 {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .text-green {
+            color: var(--accent-green);
+        }
+
+        .text-red {
+            color: var(--accent-red);
+        }
+
+        .form-section,
+        .list-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            animation: fadeInUp 1s ease;
+        }
+
+        h2.section-title {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+
+        button.btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #4f46e5);
+            color: white;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.2s;
+        }
+
+        button.btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        button.btn:active {
+            transform: scale(0.98);
+        }
+
+        .transaction-list {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .transaction-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .transaction-list::-webkit-scrollbar-track {
+            background: var(--bg-color);
+            border-radius: 8px;
+        }
+
+        .transaction-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 8px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s;
+        }
+
+        .transaction-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+
+        .transaction-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .transaction-info p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .transaction-amount {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div style="display: flex; justify-content: space-between; align-items: center; text-align: left;">
+                <div>
+                    <h1>SmartSpend</h1>
+                    <p class="subtitle">Welcome, <span id="user-display">User</span>!</p>
+                </div>
+                <button onclick="logout()" class="btn"
+                    style="width: auto; padding: 10px 20px; font-size: 0.95rem; background: var(--accent-red)">Logout</button>
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>Total Balance</h3>
+                <h2 id="total-balance">₹0.00</h2>
+            </div>
+            <div class="card">
+                <h3>Total Income</h3>
+                <h2 id="total-income" class="text-green">₹0.00</h2>
+            </div>
+            <div class="card">
+                <h3>Total Expense</h3>
+                <h2 id="total-expense" class="text-red">₹0.00</h2>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2 class="section-title">Add New Transaction</h2>
+            <form id="transaction-form">
+                <div class="form-group">
+                    <label for="desc">Description</label>
+                    <input type="text" id="desc" placeholder="e.g. Grocery" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount (₹)</label>
+                    <input type="number" id="amount" placeholder="0.00" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type">
+                        <option value="INCOME">Income</option>
+                        <option value="EXPENSE">Expense</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <button type="submit" class="btn">Add Transaction</button>
+            </form>
+        </div>
+
+        <div class="list-section">
+            <h2 class="section-title">Recent Transactions</h2>
+            <ul class="transaction-list" id="transaction-list">
+                <!-- Transactions injected here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/api/transactions';
+        const form = document.getElementById('transaction-form');
+        const list = document.getElementById('transaction-list');
+
+        const userId = localStorage.getItem('userId');
+        const username = localStorage.getItem('username');
+
+        if (!userId) {
+            window.location.href = '/auth.html';
+        }
+
+        // Load on Init
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('user-display').innerText = username;
+            document.getElementById('date').valueAsDate = new Date();
+            fetchTransactions();
+        });
+
+        function logout() {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('username');
+            window.location.href = '/auth.html';
+        }
+
+        // Form Submit
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const desc = document.getElementById('desc').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const type = document.getElementById('type').value;
+            const date = document.getElementById('date').value;
+
+            const transaction = { description: desc, amount: amount, type: type, date: date };
+
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'userId': userId
+                },
+                body: JSON.stringify(transaction)
+            });
+
+            form.reset();
+            document.getElementById('date').valueAsDate = new Date();
+            fetchTransactions();
+        });
+
+        // Fetch & Render
+        async function fetchTransactions() {
+            const res = await fetch(API_URL, {
+                headers: { 'userId': userId }
+            });
+            const data = await res.json();
+            renderData(data);
+        }
+
+        function renderData(transactions) {
+            list.innerHTML = '';
+            let income = 0;
+            let expense = 0;
+
+            transactions.forEach(t => {
+                const li = document.createElement('li');
+                li.className = 'transaction-item';
+                const isIncome = t.type === 'INCOME';
+                const amountColor = isIncome ? 'text-green' : 'text-red';
+                const sign = isIncome ? '+' : '-';
+
+                li.innerHTML = `
+                    <div class="transaction-info">
+                        <h4>${t.description}</h4>
+                        <p>${t.date} • ${t.type}</p>
+                    </div>
+                    <div class="transaction-amount ${amountColor}">
+                        ${sign}₹${t.amount.toFixed(2)}
+                        <button class="delete-btn" onclick="deleteTransaction(${t.id})" title="Delete">×</button>
+                    </div>
+                `;
+                list.appendChild(li);
+
+                if (isIncome) income += t.amount;
+                else expense += t.amount;
+            });
+
+            const balance = income - expense;
+
+            document.getElementById('total-balance').innerText = `₹${balance.toFixed(2)}`;
+            document.getElementById('total-income').innerText = `₹${income.toFixed(2)}`;
+            document.getElementById('total-expense').innerText = `₹${expense.toFixed(2)}`;
+        }
+
+        async function deleteTransaction(id) {
+            await fetch(`${API_URL}/${id}`, {
+                method: 'DELETE',
+                headers: { 'userId': userId }
+            });
+            fetchTransactions();
+        }
+    </script>
+</body>
+
+</html>
